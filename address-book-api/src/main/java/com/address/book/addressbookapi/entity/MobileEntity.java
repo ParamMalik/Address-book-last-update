@@ -18,7 +18,7 @@ import java.util.Date;
 @Entity(name = "Mobile")
 public class MobileEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mobileId;
 
     private String mobileNumber;

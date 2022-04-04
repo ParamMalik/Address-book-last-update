@@ -5,8 +5,11 @@ import com.address.book.addressbookapi.entity.ContactEntity;
 import com.address.book.addressbookapi.mapper.DtoAndEntityMapper;
 import com.address.book.addressbookapi.repo.ContactRepository;
 import com.address.book.addressbookapi.service.AddressBookService;
+import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -35,6 +38,9 @@ public class AddressBookServiceImpl implements AddressBookService {
     // Get Address By firstName
     @Override
     public List<ContactDTO> findAddressByFirstName(String firstName) {
+        if (firstName.equals(null)) {
+            throw new IllegalArgumentException("To search please enter first Name");
+        }
 
         return DtoAndEntityMapper.MAPPER.contactEntityListToDto(contactRepository.findByFirstName(firstName));
 

@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
@@ -19,13 +20,17 @@ import java.util.List;
 @Entity(name = "Contact")
 public class ContactEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long contactId;
 
+
+    @NotBlank(message = "first name shouldn't be blank")
     private String firstName;
 
+    @NotBlank(message = "last name shouldn't be blank")
     private String lastName;
 
+    @NotBlank(message = "Email can not be empty")
     private String emailAddress;
 
     private String createdBy;
@@ -38,6 +43,7 @@ public class ContactEntity {
     @UpdateTimestamp
     private Date updatedDate;
 
+    @NotBlank(message = "")
     private String isActive;
 
     @OneToMany(cascade = CascadeType.ALL)

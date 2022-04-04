@@ -18,6 +18,7 @@ public class ContactDTO {
 
     private Long contactId;
 
+
     private String firstName;
 
     private String lastName;
@@ -34,7 +35,7 @@ public class ContactDTO {
 
     private String isActive;
 
-    private List<MobileDTO> mobileDtos;
+    private List<MobileDTO> mobileEntities;
 
 
 }

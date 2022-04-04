@@ -10,8 +10,8 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-04-04T00:24:43+0530",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17 (Oracle Corporation)"
+    date = "2022-04-04T16:23:43+0530",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
 
@@ -23,7 +23,6 @@ public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
 
         ContactDTO contactDTO = new ContactDTO();
 
-        contactDTO.setMobileDtos( mobileEntityListToMobileDTOList( contactEntity.getMobileEntities() ) );
         contactDTO.setContactId( contactEntity.getContactId() );
         contactDTO.setFirstName( contactEntity.getFirstName() );
         contactDTO.setLastName( contactEntity.getLastName() );
@@ -33,6 +32,7 @@ public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
         contactDTO.setUpdatedBy( contactEntity.getUpdatedBy() );
         contactDTO.setUpdatedDate( contactEntity.getUpdatedDate() );
         contactDTO.setIsActive( contactEntity.getIsActive() );
+        contactDTO.setMobileEntities( mobileEntityListToMobileDTOList( contactEntity.getMobileEntities() ) );
 
         return contactDTO;
     }
@@ -45,7 +45,6 @@ public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
 
         ContactEntity contactEntity = new ContactEntity();
 
-        contactEntity.setMobileEntities( mobileDTOListToMobileEntityList( contactDTO.getMobileDtos() ) );
         contactEntity.setContactId( contactDTO.getContactId() );
         contactEntity.setFirstName( contactDTO.getFirstName() );
         contactEntity.setLastName( contactDTO.getLastName() );
@@ -55,6 +54,7 @@ public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
         contactEntity.setUpdatedBy( contactDTO.getUpdatedBy() );
         contactEntity.setUpdatedDate( contactDTO.getUpdatedDate() );
         contactEntity.setIsActive( contactDTO.getIsActive() );
+        contactEntity.setMobileEntities( mobileDTOListToMobileEntityList( contactDTO.getMobileEntities() ) );
 
         return contactEntity;
     }

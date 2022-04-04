@@ -5,6 +5,7 @@ import com.address.book.addressbookapi.externalservice.ExternalAddressBookServic
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +22,8 @@ public class ExternalAddressBookServiceImpl implements ExternalAddressBookServic
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    RestTemplate restTemplate;
 
     @Value("${address.uri}")
     private String uri;
