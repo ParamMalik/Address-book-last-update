@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -46,7 +47,7 @@ public class AddressBookController {
     }
 
     @PostMapping(path = "/save/{isRemote}")
-    public ResponseEntity<ContactDTO> saveAddress(@Validated @RequestBody ContactDTO contactDTO, @PathVariable(name = "isRemote") String isRemote) {
+    public ResponseEntity<ContactDTO> saveAddress(@Valid @RequestBody ContactDTO contactDTO, @PathVariable(name = "isRemote") String isRemote) {
         if (isRemote.equals("y")) {
             return new ResponseEntity<>(externalAddressBookService.saveContact(contactDTO), HttpStatus.OK);
         } else {

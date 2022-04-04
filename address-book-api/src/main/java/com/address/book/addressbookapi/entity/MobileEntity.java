@@ -1,6 +1,5 @@
 package com.address.book.addressbookapi.entity;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Getter
@@ -21,6 +23,8 @@ public class MobileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mobileId;
 
+    @NotNull(message = "Mobile Number Can not be empty")
+    @Pattern(regexp = "^\\d{10}$", message = "Invalid Mobile Number")
     private String mobileNumber;
 
     private String countryCode;

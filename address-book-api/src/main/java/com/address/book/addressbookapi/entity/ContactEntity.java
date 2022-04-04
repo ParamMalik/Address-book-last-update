@@ -43,7 +43,7 @@ public class ContactEntity {
     @UpdateTimestamp
     private Date updatedDate;
 
-    @NotBlank(message = "")
+    @NotBlank(message = "Please Enter Yes for active status")
     private String isActive;
 
     @OneToMany(cascade = CascadeType.ALL)

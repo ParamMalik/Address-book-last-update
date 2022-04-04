@@ -20,11 +20,17 @@ public class ExcelController {
     @GetMapping(path = "/download")
     public ResponseEntity<Resource> getFile() {
         String filename = "Address_Book.xlsx";
-        InputStreamResource file = new InputStreamResource(fileService.load());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
-                .body(file);
+        if (fileService.load() != null) {
+            InputStreamResource file = new InputStreamResource(fileService.load());
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                    .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+                    .body(file);
+        } else {
+            return null;
+        }
+
+
     }
 
 

@@ -14,11 +14,16 @@ import java.util.List;
 
 public class ExcelServiceImpl implements ExcelService {
     @Autowired
-    ContactRepository repository;
+    private ContactRepository repository;
 
     @Override
     public ByteArrayInputStream load() {
-        List<ContactEntity> tutorials = repository.findAll();
-        return ExcelHelper.tutorialsToExcel(tutorials);
+        List<ContactEntity> contacts = repository.findAll();
+        if (contacts.isEmpty()) {
+            return null;
+        } else {
+            return ExcelHelper.contactsToExcel(contacts);
+        }
+
     }
 }
