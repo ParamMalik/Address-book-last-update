@@ -8,6 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
@@ -30,20 +33,23 @@ public class ContactEntity {
     @NotBlank(message = "last name shouldn't be blank")
     private String lastName;
 
-    @NotBlank(message = "Email can not be empty")
+    @NotBlank
+    @Email(message = "Email can not be empty")
     private String emailAddress;
 
+    //    @NotBlank(message = "Give a name ")
     private String createdBy;
 
     @CreatedDate
     private Date createdDate;
 
+    //    @NotBlank(message = "Give a name")
     private String updatedBy;
 
     @UpdateTimestamp
     private Date updatedDate;
 
-    @NotBlank(message = "Please Enter Yes for active status")
+    //    @NotBlank(message = "Please Enter Yes for active status")
     private String isActive;
 
     @OneToMany(cascade = CascadeType.ALL)

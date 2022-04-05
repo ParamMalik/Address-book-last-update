@@ -2,14 +2,14 @@ package com.address.book.addressbookapi.service.impl;
 
 import com.address.book.addressbookapi.dto.ContactDTO;
 import com.address.book.addressbookapi.entity.ContactEntity;
+import com.address.book.addressbookapi.exception.customexception.ContactIdNotPresentException;
+import com.address.book.addressbookapi.exception.customexception.ContactNotFoundInDatabaseException;
+import com.address.book.addressbookapi.exception.customexception.EmptyDatabaseException;
 import com.address.book.addressbookapi.mapper.DtoAndEntityMapper;
 import com.address.book.addressbookapi.repo.ContactRepository;
 import com.address.book.addressbookapi.service.AddressBookService;
-import org.apache.poi.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -31,18 +31,24 @@ public class AddressBookServiceImpl implements AddressBookService {
     @Override
     public List<ContactDTO> getListOfAddress() {
 
-        return DtoAndEntityMapper.MAPPER.contactEntityListToDto(contactRepository.findAll());
+        List<ContactEntity> allContacts = contactRepository.findAll();
+        if (allContacts.isEmpty()) {
+            throw new EmptyDatabaseException();
+        }
+        return DtoAndEntityMapper.MAPPER.contactEntityListToDto(allContacts);
 
     }
 
     // Get Address By firstName
     @Override
     public List<ContactDTO> findAddressByFirstName(String firstName) {
-        if (firstName.equals(null)) {
-            throw new IllegalArgumentException("To search please enter first Name");
+
+        List<ContactEntity> byFirstName = contactRepository.findByFirstName(firstName);
+        if (byFirstName.isEmpty()) {
+            throw new ContactNotFoundInDatabaseException();
         }
 
-        return DtoAndEntityMapper.MAPPER.contactEntityListToDto(contactRepository.findByFirstName(firstName));
+        return DtoAndEntityMapper.MAPPER.contactEntityListToDto(byFirstName);
 
 
     }
@@ -51,6 +57,9 @@ public class AddressBookServiceImpl implements AddressBookService {
     @Override
     public void deleteContact(Long customerId) {
         ContactEntity byContactId = contactRepository.findByContactId(customerId);
+        if (byContactId == null) {
+            throw new ContactIdNotPresentException();
+        }
         byContactId.setIsActive("N");
         contactRepository.save(byContactId);
 

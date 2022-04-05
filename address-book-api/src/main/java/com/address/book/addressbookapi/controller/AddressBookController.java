@@ -3,10 +3,10 @@ package com.address.book.addressbookapi.controller;
 import com.address.book.addressbookapi.dto.ContactDTO;
 import com.address.book.addressbookapi.externalservice.impl.ExternalAddressBookServiceImpl;
 import com.address.book.addressbookapi.service.impl.AddressBookServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +24,9 @@ public class AddressBookController {
 
     // Get List Of All Contacts
 
+
+
+    @ApiOperation("Get All Data From the database")
     @GetMapping("/search/{isRemote}")
     public ResponseEntity<List<ContactDTO>> getAllAddressBook(@PathVariable(name = "isRemote") String isRemote) {
         if (isRemote.equals("y")) {
@@ -36,7 +39,7 @@ public class AddressBookController {
     // Get List Of Contacts by firstName
 
     @GetMapping("/search/{isRemote}/{firstName}")
-    public ResponseEntity<List<ContactDTO>> getAddressByFirstName(@PathVariable String firstName, @PathVariable(name = "isRemote") String isRemote) {
+    public ResponseEntity<List<ContactDTO>> getAddressByFirstName(@PathVariable("firstName") String firstName, @PathVariable(name = "isRemote") String isRemote) {
         if (isRemote.equals("y")) {
             return ResponseEntity.ok(List.of(externalAddressBookService.getContactListByFirstName(firstName)));
         } else {

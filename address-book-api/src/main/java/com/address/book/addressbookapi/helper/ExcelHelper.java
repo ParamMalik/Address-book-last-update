@@ -1,12 +1,18 @@
 package com.address.book.addressbookapi.helper;
 
 import com.address.book.addressbookapi.entity.ContactEntity;
+import com.address.book.addressbookapi.entity.MobileEntity;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -15,7 +21,7 @@ public final class ExcelHelper {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
-    static String[] headers = {"ContactId", "FirstName", "LastName", "Email", "isActive", "createdBy", "createdDate", "updatedBy", "updatedDate"};
+    static String[] headers = {"ContactId", "FirstName", "LastName", "Email", "isActive", "createdBy", "createdDate", "updatedBy", "updatedDate", "mobileId", "mobileNumber"};
     static String sheetOne = "Address_Book";
 
     public static ByteArrayInputStream contactsToExcel(List<ContactEntity> contacts) {
@@ -29,9 +35,6 @@ public final class ExcelHelper {
             Font font = workbook.createFont();
             font.setBold(true);
             styleOne.setFont(font);
-
-//            styleOne.setFillBackgroundColor(IndexedColors.AQUA.getIndex());
-//            styleOne.setFillPattern(FillPatternType.BRICKS);
 
 
             // Header
@@ -61,12 +64,6 @@ public final class ExcelHelper {
                 }
 
 
-                CreationHelper creationHelper = workbook.getCreationHelper();
-                CellStyle cellStyle = workbook.createCellStyle();
-
-                cellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("MM/dd/yyyy hh:mm:ss"));
-
-
                 Cell cell1 = row.createCell(0);
                 cell1.setCellValue(contact.getContactId());
                 cell1.setCellStyle(style);
@@ -93,8 +90,8 @@ public final class ExcelHelper {
 
                 // This is date cell
                 Cell cell = row.createCell(6);
-                cell.setCellValue(contact.getCreatedDate());
-                cell.setCellStyle(cellStyle);
+                cell.setCellValue(contact.getCreatedDate().toString());
+                cell.setCellStyle(style);
 
                 Cell cell7 = row.createCell(7);
                 cell7.setCellValue(contact.getUpdatedBy());
@@ -102,11 +99,22 @@ public final class ExcelHelper {
 
                 // This is date cell
                 Cell cellOne = row.createCell(8);
-                cellOne.setCellValue(contact.getUpdatedDate());
-                cellOne.setCellStyle(cellStyle);
+                cellOne.setCellValue(contact.getUpdatedDate().toString());
+                cellOne.setCellStyle(style);
 
+                // Setting values of mobile Table to the excel
+                List<MobileEntity> mobileEntities = contact.getMobileEntities();
 
-//                row.setRowStyle(style);
+                for (MobileEntity mobileEntity : mobileEntities) {
+                    Cell cell8 = row.createCell(9);
+                    cell8.setCellValue(mobileEntity.getMobileId());
+                    cell8.setCellStyle(style);
+
+                    Cell cell9 = row.createCell(10);
+                    cell9.setCellValue(mobileEntity.getMobileNumber());
+                    cell9.setCellStyle(style);
+                }
+
 
             }
             workbook.write(out);
@@ -114,6 +122,77 @@ public final class ExcelHelper {
         } catch (IOException e) {
             throw new IllegalArgumentException("fail to import data to Excel file: " + e.getMessage());
         }
+    }
+
+
+    // check that file is of excel type
+    public static boolean checkExcelFormat(MultipartFile multipartFile) {
+        String contentType = multipartFile.getContentType();
+        if (contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    // convert excel to list of contacts
+
+    public static List<ContactEntity> convertExcelToListOfProduct(InputStream file) {
+        ArrayList<ContactEntity> contactEntities = new ArrayList<>();
+
+
+        try (XSSFWorkbook workbook = new XSSFWorkbook(file);) {
+
+
+            XSSFSheet sheet = workbook.getSheet("Address_Book");
+
+            int rows = 0;
+
+            Iterator<Row> iterator = sheet.iterator();
+            while (iterator.hasNext()) {
+                Row row = iterator.next();
+                if (rows == 0) {
+                    rows++;
+                    continue;
+                }
+                Iterator<Cell> cells = row.iterator();
+
+                int cid = 0;
+
+                ContactEntity contact = new ContactEntity();
+                while (cells.hasNext()) {
+                    Cell cell = cells.next();
+                    switch (cid) {
+                        case 0:
+                            contact.setContactId((long) cell.getNumericCellValue());
+                            break;
+                        case 1:
+                            contact.setFirstName(cell.getStringCellValue());
+                            break;
+
+                        case 2:
+                            contact.setLastName(cell.getStringCellValue());
+                            break;
+                        case 3:
+                            contact.setEmailAddress(cell.getStringCellValue());
+                            break;
+                        default:
+                            break;
+
+                    }
+                    cid++;
+                }
+                contactEntities.add(contact);
+
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return contactEntities;
     }
 
 }

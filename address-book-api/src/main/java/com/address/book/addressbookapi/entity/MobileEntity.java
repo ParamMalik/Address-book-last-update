@@ -23,7 +23,7 @@ public class MobileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mobileId;
 
-    @NotNull(message = "Mobile Number Can not be empty")
+    @NotBlank(message = "Mobile Number Can not be empty")
     @Pattern(regexp = "^\\d{10}$", message = "Invalid Mobile Number")
     private String mobileNumber;
 
