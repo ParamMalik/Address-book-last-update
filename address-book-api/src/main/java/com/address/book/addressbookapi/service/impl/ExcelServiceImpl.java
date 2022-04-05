@@ -1,5 +1,6 @@
 package com.address.book.addressbookapi.service.impl;
 
+import com.address.book.addressbookapi.bulkdatasave.JdbcTemplateBulkOperations;
 import com.address.book.addressbookapi.entity.ContactEntity;
 import com.address.book.addressbookapi.exception.customexception.EmptyDatabaseException;
 import com.address.book.addressbookapi.helper.ExcelHelper;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +21,9 @@ import java.util.List;
 public class ExcelServiceImpl implements ExcelService {
     @Autowired
     private ContactRepository repository;
+
+    @Autowired
+    JdbcTemplateBulkOperations jdbcTemplateBulkOperations;
 
 
     @Override
@@ -32,20 +37,17 @@ public class ExcelServiceImpl implements ExcelService {
 
     }
 
-    public void save(MultipartFile multipartFile){
+    public void save(MultipartFile multipartFile) {
         try {
-            List<ContactEntity> contactEntities = ExcelHelper.convertExcelToListOfProduct(multipartFile.getInputStream());
-            this.repository.saveAll(contactEntities);
+            ArrayList<ContactEntity> contactEntities = ExcelHelper.convertExcelToListOfProduct(multipartFile.getInputStream());
+//            this.repository.saveAll(contactEntities);
+            jdbcTemplateBulkOperations.bulkPersist(contactEntities);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-
-//    public List<ContactEntity> getAllProducts(){
-//
-//    }
 
 
 }

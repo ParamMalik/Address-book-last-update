@@ -1,7 +1,6 @@
 package com.address.book.addressbookapi.helper;
 
 import com.address.book.addressbookapi.entity.ContactEntity;
-import com.address.book.addressbookapi.entity.MobileEntity;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,7 +20,7 @@ public final class ExcelHelper {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
-    static String[] headers = {"ContactId", "FirstName", "LastName", "Email", "isActive", "createdBy", "createdDate", "updatedBy", "updatedDate", "mobileId", "mobileNumber"};
+    static String[] headers = {"ContactId", "FirstName", "LastName", "Email", "isActive", "createdBy", "createdDate", "updatedBy", "updatedDate"};
     static String sheetOne = "Address_Book";
 
     public static ByteArrayInputStream contactsToExcel(List<ContactEntity> contacts) {
@@ -90,7 +89,7 @@ public final class ExcelHelper {
 
                 // This is date cell
                 Cell cell = row.createCell(6);
-                cell.setCellValue(contact.getCreatedDate().toString());
+//                cell.setCellValue(contact.getCreatedDate().toString());
                 cell.setCellStyle(style);
 
                 Cell cell7 = row.createCell(7);
@@ -99,21 +98,21 @@ public final class ExcelHelper {
 
                 // This is date cell
                 Cell cellOne = row.createCell(8);
-                cellOne.setCellValue(contact.getUpdatedDate().toString());
+//                cellOne.setCellValue(contact.getUpdatedDate().toString());
                 cellOne.setCellStyle(style);
 
                 // Setting values of mobile Table to the excel
-                List<MobileEntity> mobileEntities = contact.getMobileEntities();
+//                List<MobileEntity> mobileEntities = contact.getMobileEntities();
 
-                for (MobileEntity mobileEntity : mobileEntities) {
-                    Cell cell8 = row.createCell(9);
-                    cell8.setCellValue(mobileEntity.getMobileId());
-                    cell8.setCellStyle(style);
-
-                    Cell cell9 = row.createCell(10);
-                    cell9.setCellValue(mobileEntity.getMobileNumber());
-                    cell9.setCellStyle(style);
-                }
+//                for (MobileEntity mobileEntity : mobileEntities) {
+//                    Cell cell8 = row.createCell(9);
+//                    cell8.setCellValue(mobileEntity.getMobileId());
+//                    cell8.setCellStyle(style);
+//
+//                    Cell cell9 = row.createCell(10);
+//                    cell9.setCellValue(mobileEntity.getMobileNumber());
+//                    cell9.setCellStyle(style);
+//                }
 
 
             }
@@ -138,11 +137,11 @@ public final class ExcelHelper {
 
     // convert excel to list of contacts
 
-    public static List<ContactEntity> convertExcelToListOfProduct(InputStream file) {
+    public static ArrayList<ContactEntity> convertExcelToListOfProduct(InputStream file) {
         ArrayList<ContactEntity> contactEntities = new ArrayList<>();
 
 
-        try (XSSFWorkbook workbook = new XSSFWorkbook(file);) {
+        try (XSSFWorkbook workbook = new XSSFWorkbook(file)) {
 
 
             XSSFSheet sheet = workbook.getSheet("Address_Book");
@@ -176,6 +175,21 @@ public final class ExcelHelper {
                             break;
                         case 3:
                             contact.setEmailAddress(cell.getStringCellValue());
+                            break;
+                        case 4:
+                            contact.setIsActive(cell.getStringCellValue());
+                            break;
+                        case 5:
+                            contact.setCreatedBy(cell.getStringCellValue());
+                            break;
+                        case 6:
+//                            contact.setCreatedDate(cell.getStringCellValue());
+                            break;
+                        case 7:
+                            contact.setUpdatedBy(cell.getStringCellValue());
+                            break;
+                        case 8:
+//                            contact.setUpdatedDate(cell.getStringCellValue());
                             break;
                         default:
                             break;

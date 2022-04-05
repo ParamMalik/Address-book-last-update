@@ -1,5 +1,6 @@
 package com.address.book.addressbookapi.controller;
 
+import com.address.book.addressbookapi.bulkdatasave.JdbcTemplateBulkOperations;
 import com.address.book.addressbookapi.helper.ExcelHelper;
 import com.address.book.addressbookapi.service.impl.ExcelServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ExcelController {
     @Autowired
     ExcelServiceImpl fileService;
 
+
     @GetMapping(path = "/download")
     public ResponseEntity<Resource> getFile() {
         String filename = "Address_Book.xlsx";
@@ -33,13 +35,10 @@ public class ExcelController {
 
 
     @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile multipartFile) {
-        long start = System.currentTimeMillis();
+    public ResponseEntity<String> upload(@RequestParam("file") MultipartFile multipartFile) {
         if (ExcelHelper.checkExcelFormat(multipartFile)) {
             fileService.save(multipartFile);
-            long end = System.currentTimeMillis();
-            System.out.println(end - start);
-            return ResponseEntity.ok(Map.of("message", "file is uploaded"));
+            return ResponseEntity.ok("file is uploaded");
 
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Upload Excel File only");
