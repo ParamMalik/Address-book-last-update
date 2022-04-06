@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class JdbcTemplateBulkOperations implements BulkOperations {
 
     private final JdbcTemplate jdbcTemplate;
-    private static final Logger logger = LoggerFactory.getLogger(JdbcTemplateBulkOperations.class);
+//    private static final Logger logger = LoggerFactory.getLogger(JdbcTemplateBulkOperations.class);
 
 
     public JdbcTemplateBulkOperations(JdbcTemplate jdbcTemplate) {
@@ -29,8 +29,8 @@ public class JdbcTemplateBulkOperations implements BulkOperations {
     @Override
     @Transactional
     public void bulkPersist(ArrayList<ContactEntity> entityList) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+//        StopWatch stopWatch = new StopWatch();
+//        stopWatch.start();
         String query = "insert into Contact (contact_id, first_name, last_name, email_address, is_active, created_by, created_date, updated_by, updated_date) values(?,?,?,?,?,?,?,?,?)";
         jdbcTemplate.batchUpdate(query, new BatchPreparedStatementSetter() {
             @Override
@@ -54,9 +54,9 @@ public class JdbcTemplateBulkOperations implements BulkOperations {
             }
 
         });
-
-        stopWatch.stop();
-        logger.info("batchInsert -> Total time in seconds: " + stopWatch.getTotalTimeSeconds());
+//
+//        stopWatch.stop();
+//        logger.info("batchInsert -> Total time in seconds: " + stopWatch.getTotalTimeSeconds());
 
     }
 }

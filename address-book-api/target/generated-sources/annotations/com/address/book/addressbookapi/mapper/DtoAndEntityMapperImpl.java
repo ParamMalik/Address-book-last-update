@@ -10,8 +10,8 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-04-06T00:28:27+0530",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
+    date = "2022-04-06T18:36:14+0530",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
 
@@ -68,6 +68,20 @@ public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
         List<ContactDTO> list = new ArrayList<ContactDTO>( contactEntityList.size() );
         for ( ContactEntity contactEntity : contactEntityList ) {
             list.add( entityToDto( contactEntity ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<ContactEntity> dtoListTOEntityList(List<ContactDTO> contactDTOS) {
+        if ( contactDTOS == null ) {
+            return null;
+        }
+
+        List<ContactEntity> list = new ArrayList<ContactEntity>( contactDTOS.size() );
+        for ( ContactDTO contactDTO : contactDTOS ) {
+            list.add( dtoToEntity( contactDTO ) );
         }
 
         return list;

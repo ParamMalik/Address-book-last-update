@@ -15,16 +15,18 @@ public interface DtoAndEntityMapper {
 
     // Converting Entity Class Obj to DTO class Object
 
-//    @Mapping(target = "mobileDtos", source = "mobileEntities")
+    //    @Mapping(target = "mobileDtos", source = "mobileEntities")
     ContactDTO entityToDto(ContactEntity contactEntity);
 
     // Converting DTO class Obj to Entity Class Object
 
-//    @Mapping(target = "mobileEntities", source = "mobileDtos")
+    //    @Mapping(target = "mobileEntities", source = "mobileDtos")
     ContactEntity dtoToEntity(ContactDTO contactDTO);
 
     // Converting Entity List To DTO list
     List<ContactDTO> contactEntityListToDto(List<ContactEntity> contactEntityList);
+
+    List<ContactEntity> dtoListTOEntityList(List<ContactDTO> contactDTOS);
 
 
 }

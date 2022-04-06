@@ -4,6 +4,9 @@ import com.address.book.addressbookapi.entity.ContactEntity;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StopWatch;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -138,15 +141,20 @@ public final class ExcelHelper {
     // convert excel to list of contacts
 
     public static ArrayList<ContactEntity> convertExcelToListOfProduct(InputStream file) {
+        final Logger logger = LoggerFactory.getLogger(ExcelHelper.class);
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         ArrayList<ContactEntity> contactEntities = new ArrayList<>();
+
 
 
         try (XSSFWorkbook workbook = new XSSFWorkbook(file)) {
 
 
+
             XSSFSheet sheet = workbook.getSheet("Address_Book");
 
-            int rows = 0;
+            Integer rows = 0;
 
             Iterator<Row> iterator = sheet.iterator();
             while (iterator.hasNext()) {
@@ -157,7 +165,7 @@ public final class ExcelHelper {
                 }
                 Iterator<Cell> cells = row.iterator();
 
-                int cid = 0;
+                Integer cid = 0;
 
                 ContactEntity contact = new ContactEntity();
                 while (cells.hasNext()) {
@@ -205,8 +213,12 @@ public final class ExcelHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        stopWatch.stop();
 
+        logger.info("excel Read -> Total time in seconds: " + stopWatch.getTotalTimeSeconds());
         return contactEntities;
     }
+
+
 
 }

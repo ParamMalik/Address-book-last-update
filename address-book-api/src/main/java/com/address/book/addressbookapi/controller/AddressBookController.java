@@ -38,6 +38,7 @@ public class AddressBookController {
 
     // Get List Of Contacts by firstName
 
+    @ApiOperation("Get Data On the basis of Name")
     @GetMapping("/search/{isRemote}/{firstName}")
     public ResponseEntity<List<ContactDTO>> getAddressByFirstName(@PathVariable("firstName") String firstName, @PathVariable(name = "isRemote") String isRemote) {
         if (isRemote.equals("y")) {
@@ -49,6 +50,7 @@ public class AddressBookController {
 
     }
 
+    @ApiOperation("Save New Contact In the database")
     @PostMapping(path = "/save/{isRemote}")
     public ResponseEntity<ContactDTO> saveAddress(@Valid @RequestBody ContactDTO contactDTO, @PathVariable(name = "isRemote") String isRemote) {
         if (isRemote.equals("y")) {
@@ -60,6 +62,7 @@ public class AddressBookController {
 
     }
 
+    @ApiOperation("Delete On the basis of Contact ID")
     @PutMapping(path = "/update/{isRemote}/{contactId}")
     public ResponseEntity<String> updateAddressBook(@PathVariable Long contactId, @PathVariable(name = "isRemote") String isRemote) {
         if (isRemote.equals("y")) {

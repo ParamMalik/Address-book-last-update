@@ -15,6 +15,8 @@ import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,7 +25,8 @@ import java.util.List;
 @Entity(name = "Contact")
 public class ContactEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = SEQUENCE, generator = "seqGen")
+    @SequenceGenerator(name = "seqGen", sequenceName = "seq", initialValue = 1)
     private Long contactId;
 
 
