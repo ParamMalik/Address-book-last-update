@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Setter
@@ -19,26 +19,26 @@ import java.util.List;
 
 public class ContactDTO {
 
-    @ExcelRow
+//    @ExcelRow
     private Integer rowIndex;
 
-    @ExcelCellName("ContactId")
+//    @ExcelCellName("ContactId")
     private Long contactId;
-    @ExcelCellName("FirstName")
+//    @ExcelCellName("FirstName")
     private String firstName;
-    @ExcelCellName("LastName")
+//    @ExcelCellName("LastName")
     private String lastName;
-    @ExcelCellName("Email")
+//    @ExcelCellName("Email")
     private String emailAddress;
-    @ExcelCellName("createdBy")
+//    @ExcelCellName("createdBy")
     private String createdBy;
-    @ExcelCellName("createdDate")
+//    @ExcelCellName("createdDate")
     private Date createdDate;
-    @ExcelCellName("updatedBy")
+//    @ExcelCellName("updatedBy")
     private String updatedBy;
-    @ExcelCellName("updatedDate")
+//    @ExcelCellName("updatedDate")
     private Date updatedDate;
-    @ExcelCellName("isActive")
+//    @ExcelCellName("isActive")
     private String isActive;
 
     private List<MobileDTO> mobileEntities;

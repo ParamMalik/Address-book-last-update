@@ -50,8 +50,8 @@ public class ExcelController {
         stopWatch.start();
 
         if (ExcelHelper.checkExcelFormat(multipartFile)) {
-            fileService.uploadExcel(multipartFile);
-//            fileService.save(multipartFile);
+//            fileService.uploadExcel(multipartFile);
+            fileService.save(multipartFile);
             stopWatch.stop();
             logger.info("Complete Ops -> Total time in seconds: " + stopWatch.getTotalTimeSeconds());
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 public class AddressBookController {
 
@@ -25,9 +26,9 @@ public class AddressBookController {
     // Get List Of All Contacts
 
 
-
     @ApiOperation("Get All Data From the database")
     @GetMapping("/search/{isRemote}")
+
     public ResponseEntity<List<ContactDTO>> getAllAddressBook(@PathVariable(name = "isRemote") String isRemote) {
         if (isRemote.equals("y")) {
             return ResponseEntity.ok(List.of(externalAddressBookService.getContactList()));

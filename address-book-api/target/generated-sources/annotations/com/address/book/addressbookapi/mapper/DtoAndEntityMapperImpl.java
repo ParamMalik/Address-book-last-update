@@ -4,14 +4,15 @@ import com.address.book.addressbookapi.dto.ContactDTO;
 import com.address.book.addressbookapi.dto.MobileDTO;
 import com.address.book.addressbookapi.entity.ContactEntity;
 import com.address.book.addressbookapi.entity.MobileEntity;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-04-06T18:36:14+0530",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
+    date = "2022-04-07T01:04:03+0530",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
 )
 public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
 
@@ -28,9 +29,13 @@ public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
         contactDTO.setLastName( contactEntity.getLastName() );
         contactDTO.setEmailAddress( contactEntity.getEmailAddress() );
         contactDTO.setCreatedBy( contactEntity.getCreatedBy() );
-        contactDTO.setCreatedDate( contactEntity.getCreatedDate() );
+        if ( contactEntity.getCreatedDate() != null ) {
+            contactDTO.setCreatedDate( new Date( contactEntity.getCreatedDate().getTime() ) );
+        }
         contactDTO.setUpdatedBy( contactEntity.getUpdatedBy() );
-        contactDTO.setUpdatedDate( contactEntity.getUpdatedDate() );
+        if ( contactEntity.getUpdatedDate() != null ) {
+            contactDTO.setUpdatedDate( new Date( contactEntity.getUpdatedDate().getTime() ) );
+        }
         contactDTO.setIsActive( contactEntity.getIsActive() );
         contactDTO.setMobileEntities( mobileEntityListToMobileDTOList( contactEntity.getMobileEntities() ) );
 
@@ -99,9 +104,13 @@ public class DtoAndEntityMapperImpl implements DtoAndEntityMapper {
         mobileDTO.setCountryCode( mobileEntity.getCountryCode() );
         mobileDTO.setType( mobileEntity.getType() );
         mobileDTO.setCreatedBy( mobileEntity.getCreatedBy() );
-        mobileDTO.setCreatedDate( mobileEntity.getCreatedDate() );
+        if ( mobileEntity.getCreatedDate() != null ) {
+            mobileDTO.setCreatedDate( new Date( mobileEntity.getCreatedDate().getTime() ) );
+        }
         mobileDTO.setUpdatedBy( mobileEntity.getUpdatedBy() );
-        mobileDTO.setUpdatedDate( mobileEntity.getUpdatedDate() );
+        if ( mobileEntity.getUpdatedDate() != null ) {
+            mobileDTO.setUpdatedDate( new Date( mobileEntity.getUpdatedDate().getTime() ) );
+        }
 
         return mobileDTO;
     }

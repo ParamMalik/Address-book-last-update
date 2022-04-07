@@ -57,17 +57,19 @@ public class ExcelServiceImpl implements ExcelService {
 
     }
 
-    public void uploadExcel(MultipartFile multipartFile) throws IOException {
-        InputStream inputStream = multipartFile.getInputStream();
-        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+//    public void uploadExcel(MultipartFile multipartFile) throws IOException {
+//        InputStream inputStream = multipartFile.getInputStream();
+//        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+//
+//        XSSFSheet sheet = workbook.getSheet("Address_Book");
+//        List<ContactDTO> contacts = Poiji.fromExcel(sheet, ContactDTO.class);
+//        List<ContactEntity> contactEntities = DtoAndEntityMapper.MAPPER.dtoListTOEntityList(contacts);
+//        jdbcTemplateBulkOperations.bulkPersist((ArrayList<ContactEntity>) contactEntities);
+//
+//        System.out.println(contacts.get(1).getFirstName());
+//    }
+//
 
-        XSSFSheet sheet = workbook.getSheet("Address_Book");
-        List<ContactDTO> contacts = Poiji.fromExcel(sheet, ContactDTO.class);
-        List<ContactEntity> contactEntities = DtoAndEntityMapper.MAPPER.dtoListTOEntityList(contacts);
-        jdbcTemplateBulkOperations.bulkPersist((ArrayList<ContactEntity>) contactEntities);
-
-        System.out.println(contacts.get(1).getFirstName());
-    }
 //    public void upload(File multipartFile){
 //        List<ContactDTO> contactDTOS = Poiji.fromExcel(multipartFile, ContactDTO.class);
 //        jdbcTemplateBulkOperations.bulkPersist();
